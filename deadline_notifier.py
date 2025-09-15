@@ -78,7 +78,7 @@ URGENT REMINDER: Your task is due TOMORROW.
 📅 Deadline: {deadline}
 
 Best regards,
-Project Management System
+abhrxdi4p
 """
         else:
             subject = f"🔴 DEADLINE TODAY: {task_name}"
