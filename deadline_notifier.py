@@ -1,8 +1,6 @@
 from dotenv import load_dotenv
 import os
-
-load_dotenv()  # loads .env into environment
-
+load_dotenv()
 smtp_config = {
     'smtp_server': os.getenv('SMTP_SERVER', 'smtp.gmail.com'),
     'smtp_port': int(os.getenv('SMTP_PORT', 587)),
@@ -18,8 +16,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import logging
 from typing import Dict
-
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -70,7 +66,7 @@ This is a friendly reminder that your task is due in 3 days.
 📅 Deadline: {deadline}
 
 Best regards,
-Project Management System
+abhrxdi4p
 """
         elif notification_type == "1_day":
             subject = f"🚨 URGENT: Task Due Tomorrow - {task_name}"
@@ -86,15 +82,13 @@ Project Management System
 """
         else:
             subject = f"🔴 DEADLINE TODAY: {task_name}"
-            body = f"""Hi {assignee},
+            body = f"""Hemlo hardworking labours, {assignee},
 
 This is a critical reminder that your task deadline is TODAY.
-
 📋 Task: {task_name}
 📅 Deadline: {deadline}
-
 Best regards,
-Project Management System
+abhrxdi4p
 """
         return subject, body
     
@@ -131,21 +125,18 @@ Project Management System
                     subject, body = self.create_email_content(task, notification_type)
                     if self.send_email(task['Email'], subject, body):
                         total_sent += 1
-                        logging.info(f"Sent {notification_type} notification for task: {task['Task']}")
+                        logging.info(f"Sent {notification_type}notification for task:{task['Task']}")
                     time.sleep(1)
-        logging.info(f"Notification process completed. Total emails sent: {total_sent}")
+        logging.info(f"Notification process completed.Total emails sent:{total_sent}")
 
 def main():
     excel_file_path = "tasks_deadlines.xlsx"
     notifier = DeadlineNotifier(excel_file_path, smtp_config)
-
-    # Schedule daily run at 9:00 AM
     print("Scheduling daily deadline notifications at 09:00...")
     schedule.every().day.at("09:00").do(notifier.process_notifications)
 
     while True:
         schedule.run_pending()
-        time.sleep(60)  # check every minute
-
+        time.sleep(60)
 if __name__ == "__main__":
     main()
